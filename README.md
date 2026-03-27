@@ -1,34 +1,44 @@
-# observability-kit-node
+﻿# observability-kit-node
 
-Kit de observabilidade para APIs Node com logs, metricas e tracing.
+![CI](https://github.com/Beckerr11/observability-kit-node/actions/workflows/ci.yml/badge.svg)
+
+Observability kit para Node.
 
 ## Objetivo
-Construir uma base profissional para portfolio full stack com foco em simplicidade, clareza e evolucao incremental.
+Este repositorio faz parte de uma trilha de portfolio profissional full stack, com foco em simplicidade, clareza e boas praticas.
 
 ## Stack
-Node.js + OpenTelemetry + Sentry + Prometheus
+Node.js, logs estruturados, metricas Prometheus, reporter Sentry-ready
 
-## MVP (v0.1)
-- Health endpoint
-- Logs estruturados
-- Metrica de requests
-- Tracing inicial
-
-## Estrutura inicial
-- docs/ROADMAP.md: plano de evolucao
-- src/: codigo fonte principal
-- 	ests/: testes iniciais
-- .github/workflows/ci.yml: pipeline minima
+## Funcionalidades implementadas
+- Snapshot de metricas por rota e status class
+- Export em formato Prometheus
+- Redacao de headers sensiveis nos logs
+- Reporter de erro com fallback noop
 
 ## Como executar
-Veja as instrucoes no docs/ROADMAP.md e no bloco de setup abaixo.
-`ash
-npm install
+~~~bash
+npm ci
 npm test
 npm run dev
-`
+~~~
+
+## Scripts uteis
+- npm run dev, npm test
+
+## Qualidade
+- CI em .github/workflows/ci.yml
+- Dependabot em .github/dependabot.yml
+- Testes locais obrigatorios antes de merge
+
+## Documentacao
+- [Roadmap](docs/ROADMAP.md)
+- [Checklist de producao](docs/PRODUCTION-CHECKLIST.md)
+- [Contribuicao](CONTRIBUTING.md)
+- [Seguranca](SECURITY.md)
+
 ## Status
 - [x] Scaffold inicial
-- [ ] MVP funcional
-- [ ] Deploy publico
-- [ ] Observabilidade e seguranca avancada
+- [x] Base funcional com testes
+- [ ] Deploy publico com observabilidade completa
+- [ ] Versao 1.0.0 com demo publica
