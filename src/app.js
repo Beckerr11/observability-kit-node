@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto'
+import { createNoopErrorReporter } from './integrations/sentryReporter.js'
 
 const REDACTED_HEADERS = new Set(['authorization', 'cookie', 'x-api-key'])
 
@@ -114,7 +115,9 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload))
 }
 
-export function createApp(metrics = createMetricsStore()) {
+export function createApp(metrics = createMetricsStore(), options = {}) {
+  const errorReporter = options.errorReporter || createNoopErrorReporter()
+
   return async function app(req, res) {
     const started = Date.now()
     const url = new URL(req.url || '/', 'http://localhost')
@@ -149,6 +152,12 @@ export function createApp(metrics = createMetricsStore()) {
       sendJson(res, statusCode, { error: 'rota nao encontrada', traceId })
     } catch (error) {
       statusCode = 500
+      await errorReporter({
+        error,
+        routeKey,
+        traceId,
+        headers: sanitizeHeaders(req.headers),
+      })
       sendJson(res, statusCode, { error: error instanceof Error ? error.message : 'erro interno', traceId })
     } finally {
       const durationMs = Date.now() - started
