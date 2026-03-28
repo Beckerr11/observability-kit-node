@@ -1,3 +1,4 @@
+import { buildLandingHtml } from './ui/landing.js'
 import { randomUUID } from 'node:crypto'
 import { createNoopErrorReporter } from './integrations/sentryReporter.js'
 
@@ -127,6 +128,12 @@ export function createApp(metrics = createMetricsStore(), options = {}) {
     let statusCode = 200
 
     try {
+            if (req.method === 'GET' && url.pathname === '/') {
+        res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' })
+        res.end(buildLandingHtml())
+        return
+      }
+
       if (req.method === 'GET' && url.pathname === '/health') {
         sendJson(res, 200, { ok: true, service: 'observability-kit-node', traceId })
         return
@@ -177,3 +184,4 @@ export function createApp(metrics = createMetricsStore(), options = {}) {
     }
   }
 }
+
